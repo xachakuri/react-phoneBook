@@ -1,0 +1,19 @@
+.navbar {
+  position: relative;
+  flex-wrap: wrap;
+  align-items: center;
+  padding-top: 0.5rem;
+  padding-bottom: 0.5rem;
+  background-color: #0d6efd;
+}
+
+.containerNavbar {
+  display: flex;
+  flex-wrap: inherit;
+  align-items: center;
+  justify-content: center;
+
+  h1 {
+    color: #ffffff;
+  }
+}

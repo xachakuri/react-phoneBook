@@ -1,0 +1,72 @@
+{
+  "name": "react-phone",
+  "version": "0.1.0",
+  "private": true,
+  "dependencies": {
+    "@hookform/resolvers": "^2.8.8",
+    "@reduxjs/toolkit": "^1.7.2",
+    "bootstrap": "^5.1.3",
+    "clsx": "^1.1.1",
+    "gh-pages": "^3.2.3",
+    "react": "^17.0.2",
+    "react-datepicker": "^4.7.0",
+    "react-dom": "^17.0.2",
+    "react-hook-form": "^7.28.0",
+    "react-moment": "^1.1.1",
+    "react-number-format": "^4.9.1",
+    "react-redux": "^7.2.6",
+    "react-scripts": "5.0.0",
+    "stylelint-config-recommended-scss": "^6.0.0",
+    "stylelint-scss": "^4.2.0",
+    "yup": "^0.32.11"
+  },
+  "scripts": {
+    "start": "react-scripts start",
+    "format": "prettier --write .",
+    "deploy": "gh-pages -d build",
+    "predeploy": "npm run build",
+    "stylelint": "stylelint \"src/**/*.scss\"",
+    "stylelint:fix": "stylelint \"src/**/*.scss\" --fix"
+  },
+  "browserslist": {
+    "production": [
+      ">0.2%",
+      "not dead",
+      "not op_mini all"
+    ],
+    "development": [
+      "last 1 chrome version",
+      "last 1 firefox version",
+      "last 1 safari version"
+    ]
+  },
+  "husky": {
+    "hooks": {
+      "pre-commit": "npx lint-staged"
+    }
+  },
+  "lint-staged": {
+    "*.(css|scss)": [
+      "npm run stylelint:fix"
+    ],
+    "*.{js,json,yml,yaml,css,scss,ts,tsx,md}": [
+      "npm run format"
+    ]
+  },
+  "engines": {
+    "node": "^16.0.0",
+    "npm": "^8.0.0"
+  },
+  "devDependencies": {
+    "husky": "^4.3.8",
+    "json-server": "^0.16.3",
+    "lint-staged": "^12.3.7",
+    "prettier": "^2.5.1",
+    "sass": "^1.49.9",
+    "stylelint": "^14.6.0",
+    "stylelint-config-rational-order": "^0.1.2",
+    "stylelint-config-standard": "^25.0.0",
+    "stylelint-order": "^5.0.0",
+    "typescript": "^4.5.5"
+  }
+}

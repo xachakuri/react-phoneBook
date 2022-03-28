@@ -1,0 +1,17 @@
+.formPhone {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 900px;
+  margin: 50px auto;
+  padding: 30px 10px;
+  background: #ffffff;
+  border-radius: 10px;
+}
+
+.containerFormPhone {
+  display: grid;
+  grid-template-columns: 450px 210px;
+  border: 2px solid #bbbbbb;
+  border-radius: 3px;
+}

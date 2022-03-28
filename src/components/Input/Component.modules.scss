@@ -1,0 +1,29 @@
+.input {
+  width: 100%;
+  color: #333333;
+  font-size: 30px;
+  border: none;
+  outline: none;
+}
+
+.inputTheme {
+  &_default {
+    padding: 5px 5px 5px 20px;
+    background-color: #f1f3f4;
+    border-right: 2px solid #bbbbbb;
+  }
+
+  &_modal {
+    border: 2px solid #bbbbbb;
+  }
+
+  &_modal::placeholder {
+    color: #c0c0c0;
+    opacity: 0.6;
+  }
+
+  &_default::placeholder {
+    color: #c0c0c0;
+    opacity: 0.6;
+  }
+}
