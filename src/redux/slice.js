@@ -26,14 +26,8 @@ const phoneSlice = createSlice({
       state.phones = state.phones.filter((item) => item.id !== action.payload.id);
     },
     addFormValue(state, action) {
-      const valuePhone = state.phones.find((item) => item.id === action.payload.id);
-      state.formValues = {
-        ...valuePhone,
-        nameUser: action.payload.formName,
-        city: action.payload.formCity,
-        phone: action.payload.formPhone,
-        dateRegistration: action.payload.formDate,
-      };
+      const phoneValue = state.phones.find((item) => item.id === action.payload.id);
+      state.formValues = phoneValue;
     },
     editValue(state, action) {
       state.phones = state.phones.map((item) =>

@@ -1,4 +1,4 @@
-import React, { useCallback, useEffect, useState, useMemo } from 'react';
+import React, { useCallback, useState } from 'react';
 import styles from './PhoneCard.module.scss';
 import { Button, Modal } from '../../../../components';
 import { CardInsides } from './CardInsides';
@@ -13,9 +13,6 @@ export const PhoneCard = ({ id, phone, city, nameUser, dateRegistration }) => {
     formCity: city,
     formDate: dateRegistration.toString(),
   };
-  useEffect(() => {
-    dispatch(addFormValue(formValue, id));
-  });
   const dispatch = useDispatch();
   const [isOpen, setIsOpen] = useState(false);
   const onClose = useCallback(() => setIsOpen(false), [setIsOpen]);
@@ -26,6 +23,7 @@ export const PhoneCard = ({ id, phone, city, nameUser, dateRegistration }) => {
   const onEdit = useCallback(() => {
     setIsEdit(true);
     setIsOpenEdit(true);
+    dispatch(addFormValue({ id }, formValue));
   }, [setIsEdit, setIsOpenEdit]);
   return (
     <>
