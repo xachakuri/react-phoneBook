@@ -2,7 +2,7 @@ import React, { forwardRef } from 'react';
 import clsx from 'clsx';
 import PropTypes from 'prop-types';
 
-import './Component.modules.scss';
+import './Input.modules.scss';
 
 export const Input = forwardRef(
   (
@@ -41,4 +41,6 @@ Input.propTypes = {
   placeholder: PropTypes.string,
   value: PropTypes.string,
   className: PropTypes.string,
+  onClick: PropTypes.func,
+  name: PropTypes.string,
 };

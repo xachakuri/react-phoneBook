@@ -1,10 +1,11 @@
 import React, { useCallback, useState } from 'react';
-import styles from './PhoneCard.module.scss';
-import { Button, Modal } from '../../../../components';
-import { CardInsides } from './CardInsides';
-import { ModalForm } from '../../ModalForm/ModalForm';
 import { useDispatch } from 'react-redux';
+import { CardInsides } from './CardInsides';
+import { PhoneDataForm } from '../../PhoneDataForm/PhoneDataForm';
+import { Button, Modal } from '../../../../components';
 import { addFormValue } from '../../../../redux';
+
+import styles from './PhoneCard.module.scss';
 
 export const PhoneCard = ({ id, phone, city, nameUser, dateRegistration }) => {
   const formValue = {
@@ -18,13 +19,12 @@ export const PhoneCard = ({ id, phone, city, nameUser, dateRegistration }) => {
   const onClose = useCallback(() => setIsOpen(false), [setIsOpen]);
   const onShow = useCallback(() => setIsOpen(true), [setIsOpen]);
   const [isOpenEdit, setIsOpenEdit] = useState(false);
-  const [isEdit, setIsEdit] = useState(false);
+  const isEdit = true;
   const onCloseEdit = useCallback(() => setIsOpenEdit(false), [setIsOpenEdit]);
   const onEdit = useCallback(() => {
-    setIsEdit(true);
     setIsOpenEdit(true);
     dispatch(addFormValue({ id }, formValue));
-  }, [setIsEdit, setIsOpenEdit]);
+  }, [setIsOpenEdit]);
   return (
     <>
       <li className={styles.phoneCard}>
@@ -52,7 +52,7 @@ export const PhoneCard = ({ id, phone, city, nameUser, dateRegistration }) => {
         />
       </Modal>
       <Modal title="Режим редактирования" onClose={onCloseEdit} isOpen={isOpenEdit}>
-        <ModalForm onClose={onCloseEdit} id={id} isEdit={isEdit} />
+        <PhoneDataForm onClose={onCloseEdit} id={id} isEdit={isEdit} />
       </Modal>
     </>
   );

@@ -1,4 +1,4 @@
-export const formatter = (value) => {
+export const dateFormatting = (value) => {
   if (!value) {
     return {};
   }

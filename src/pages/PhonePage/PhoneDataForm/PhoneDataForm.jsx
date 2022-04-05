@@ -1,29 +1,27 @@
 import React, { useCallback, useEffect, useMemo } from 'react';
 import { useForm, Controller } from 'react-hook-form';
-import { Button, Input, FormField } from '../../../components';
-import { useDispatch, useSelector } from 'react-redux';
-import { yupResolver } from '@hookform/resolvers/yup';
-import { formatter } from '../../../utils';
-import * as Yup from 'yup';
-import { addPhone, editValue, removePhone } from '../../../redux';
 import NumberFormat from 'react-number-format';
 import DatePicker from 'react-datepicker';
+import * as Yup from 'yup';
+import { useDispatch, useSelector } from 'react-redux';
+import { yupResolver } from '@hookform/resolvers/yup';
+import { formStore } from '../../../redux/selector';
+import { Button, Input, FormField } from '../../../components';
+import { dateFormatting } from '../../../utils';
+import { addPhone, editValue, removePhone } from '../../../redux';
 
 import 'react-datepicker/dist/react-datepicker.css';
-import styles from './ModalForm.module.scss';
-import { formStore } from '../../../redux/selector';
+import styles from './PhoneDataForm.module.scss';
 
 const phoneRegExp =
   /^(\+7|7|8)?[\s-]?\(?[489][0-9]{2}\)?[\s-]?[0-9]{3}[\s-]?[0-9]{2}[\s-]?[0-9]{2}$/;
-const cityRegExp = /^[A-Za-zА-Яа-яЁё]+$/;
 const validationSchema = Yup.object().shape({
   nameUser: Yup.string()
     .required('❗ Поле обязательно к заполнению')
     .max(20, '❗ Слишком длинное имя'),
   city: Yup.string()
     .required('❗ Поле обязательно к заполнению')
-    .max(20, '❗ Слишком длинное слово')
-    .matches(cityRegExp, '❗ Введите город без цифр'),
+    .max(20, '❗ Слишком длинное слово'),
   phone: Yup.string()
     .required('❗ Поле обязательно к заполнению')
     .matches(phoneRegExp, ' ❗Введите правильный номер телефона'),
@@ -32,13 +30,12 @@ const validationSchema = Yup.object().shape({
     .transform((curr, orig) => (orig === '' ? null : curr))
     .required('❗ Поле обязательно к заполнению'),
 });
-
-export const ModalForm = ({ onClose, isEdit, id, onCreate }) => {
+export const PhoneDataForm = ({ onClose, isEdit, id }) => {
   const dispatch = useDispatch();
   const formValues = useSelector(formStore);
   const localStorageValue = JSON.parse(localStorage.getItem('form'));
   const initialValue = useMemo(() => {
-    return isEdit ? formatter(formValues) : formatter(localStorageValue);
+    return isEdit ? dateFormatting(formValues) : dateFormatting(localStorageValue);
   }, [isEdit]);
   const {
     control,
@@ -66,7 +63,12 @@ export const ModalForm = ({ onClose, isEdit, id, onCreate }) => {
     [dispatch],
   );
   useEffect(() => {
-    watch((value) => (isEdit ? '' : localStorage.setItem('form', JSON.stringify(value))));
+    const subscription = watch((value) =>
+      isEdit ? null : localStorage.setItem('form', JSON.stringify(value)),
+    );
+    return () => {
+      subscription.unsubscribe();
+    };
   }, [watch]);
   const onSubmitEdit = useCallback(
     (data) => {
@@ -148,9 +150,7 @@ export const ModalForm = ({ onClose, isEdit, id, onCreate }) => {
           <Button onClick={deletePhoneHandler}>Удалить</Button>
         </div>
       ) : (
-        <Button type="submit" onClick={onCreate}>
-          Добавить
-        </Button>
+        <Button type="submit">Добавить</Button>
       )}
     </form>
   );

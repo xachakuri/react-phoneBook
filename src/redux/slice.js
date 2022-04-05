@@ -2,7 +2,7 @@ import { createSlice } from '@reduxjs/toolkit';
 
 export const initialState = {
   phones: [],
-  value: '',
+  searchValue: '',
   formValues: {},
 };
 
@@ -13,31 +13,24 @@ const phoneSlice = createSlice({
     addPhone(state, action) {
       state.phones.push({
         id: new Date().toISOString(),
-        nameUser: action.payload.nameUser,
-        city: action.payload.city,
-        phone: action.payload.phone,
-        dateRegistration: action.payload.dateRegistration,
+        ...action.payload,
       });
     },
-    addValue(state, action) {
-      state.value = action.payload;
+    addSearchValue(state, action) {
+      state.searchValue = action.payload;
     },
     removePhone(state, action) {
       state.phones = state.phones.filter((item) => item.id !== action.payload.id);
     },
     addFormValue(state, action) {
-      const phoneValue = state.phones.find((item) => item.id === action.payload.id);
-      state.formValues = phoneValue;
+      state.formValues = state.phones.find((item) => item.id === action.payload.id);
     },
     editValue(state, action) {
       state.phones = state.phones.map((item) =>
         item.id === action.payload.id
           ? {
               ...item,
-              nameUser: action.payload.nameUser,
-              city: action.payload.city,
-              phone: action.payload.phone,
-              dateRegistration: action.payload.dateRegistration,
+              ...action.payload,
             }
           : item,
       );
@@ -45,6 +38,7 @@ const phoneSlice = createSlice({
   },
 });
 
-export const { addPhone, removePhone, addValue, addFormValue, editValue } = phoneSlice.actions;
+export const { addPhone, removePhone, addSearchValue, addFormValue, editValue } =
+  phoneSlice.actions;
 
 export default phoneSlice.reducer;
