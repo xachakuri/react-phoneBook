@@ -1,11 +1,11 @@
 import React from 'react';
-import { Navbar, PhoneBook, PhoneControl } from './index';
+import { Navbar, PhoneBook, PhonebookActions } from './index';
 
 export const PhonePage = () => {
   return (
     <>
       <Navbar />
-      <PhoneControl />
+      <PhonebookActions />
       <PhoneBook />
     </>
   );

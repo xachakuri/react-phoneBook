@@ -1,5 +1,6 @@
 import React, { useCallback, useState } from 'react';
 import { useDispatch } from 'react-redux';
+import PropTypes from 'prop-types';
 import { CardInsides } from './CardInsides';
 import { PhoneDataForm } from '../../PhoneDataForm/PhoneDataForm';
 import { Button, Modal } from '../../../../components';
@@ -15,11 +16,10 @@ export const PhoneCard = ({ id, phone, city, nameUser, dateRegistration }) => {
     formDate: dateRegistration.toString(),
   };
   const dispatch = useDispatch();
-  const [isOpen, setIsOpen] = useState(false);
-  const onClose = useCallback(() => setIsOpen(false), [setIsOpen]);
-  const onShow = useCallback(() => setIsOpen(true), [setIsOpen]);
+  const [isOpenQuickView, setIsOpenQuickView] = useState(false);
+  const onClose = useCallback(() => setIsOpenQuickView(false), [setIsOpenQuickView]);
+  const onShow = useCallback(() => setIsOpenQuickView(true), [setIsOpenQuickView]);
   const [isOpenEdit, setIsOpenEdit] = useState(false);
-  const isEdit = true;
   const onCloseEdit = useCallback(() => setIsOpenEdit(false), [setIsOpenEdit]);
   const onEdit = useCallback(() => {
     setIsOpenEdit(true);
@@ -42,7 +42,7 @@ export const PhoneCard = ({ id, phone, city, nameUser, dateRegistration }) => {
           </div>
         </div>
       </li>
-      <Modal title="Быстрый просмотр" onClose={onClose} isOpen={isOpen}>
+      <Modal title="Быстрый просмотр" onClose={onClose} isOpen={isOpenQuickView}>
         <CardInsides
           phone={phone}
           city={city}
@@ -52,8 +52,16 @@ export const PhoneCard = ({ id, phone, city, nameUser, dateRegistration }) => {
         />
       </Modal>
       <Modal title="Режим редактирования" onClose={onCloseEdit} isOpen={isOpenEdit}>
-        <PhoneDataForm onClose={onCloseEdit} id={id} isEdit={isEdit} />
+        <PhoneDataForm onClose={onCloseEdit} id={id} isEdit />
       </Modal>
     </>
   );
+};
+
+PhoneCard.propTypes = {
+  nameUser: PropTypes.string.isRequired,
+  city: PropTypes.string.isRequired,
+  id: PropTypes.string.isRequired,
+  dateRegistration: PropTypes.string.isRequired,
+  phone: PropTypes.oneOfType([PropTypes.string, PropTypes.number]).isRequired,
 };

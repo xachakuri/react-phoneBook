@@ -16,7 +16,9 @@ export const Input = forwardRef(
       register = () => null,
       name,
       onClick,
+      autoFocus,
     },
+    // eslint-disable-next-line no-unused-vars
     ref,
   ) => {
     return (
@@ -30,10 +32,13 @@ export const Input = forwardRef(
           required: true,
         })}
         onClick={onClick}
+        autoFocus={autoFocus}
       />
     );
   },
 );
+
+Input.displayName = 'Input';
 
 Input.propTypes = {
   onChange: PropTypes.func,
@@ -43,4 +48,7 @@ Input.propTypes = {
   className: PropTypes.string,
   onClick: PropTypes.func,
   name: PropTypes.string,
+  type: PropTypes.string,
+  autoFocus: PropTypes.bool,
+  register: PropTypes.func,
 };

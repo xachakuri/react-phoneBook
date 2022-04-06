@@ -2,7 +2,7 @@ import { createSlice } from '@reduxjs/toolkit';
 
 export const initialState = {
   phones: [],
-  searchValue: '',
+  searchFilter: '',
   formValues: {},
 };
 
@@ -16,8 +16,8 @@ const phoneSlice = createSlice({
         ...action.payload,
       });
     },
-    addSearchValue(state, action) {
-      state.searchValue = action.payload;
+    setSearchValue(state, action) {
+      state.searchFilter = action.payload;
     },
     removePhone(state, action) {
       state.phones = state.phones.filter((item) => item.id !== action.payload.id);
@@ -25,7 +25,7 @@ const phoneSlice = createSlice({
     addFormValue(state, action) {
       state.formValues = state.phones.find((item) => item.id === action.payload.id);
     },
-    editValue(state, action) {
+    editPhone(state, action) {
       state.phones = state.phones.map((item) =>
         item.id === action.payload.id
           ? {
@@ -38,7 +38,7 @@ const phoneSlice = createSlice({
   },
 });
 
-export const { addPhone, removePhone, addSearchValue, addFormValue, editValue } =
+export const { addPhone, removePhone, setSearchValue, addFormValue, editPhone } =
   phoneSlice.actions;
 
 export default phoneSlice.reducer;

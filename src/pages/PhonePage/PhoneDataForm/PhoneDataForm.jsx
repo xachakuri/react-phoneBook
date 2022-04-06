@@ -7,11 +7,12 @@ import { useDispatch, useSelector } from 'react-redux';
 import { yupResolver } from '@hookform/resolvers/yup';
 import { formStore } from '../../../redux/selector';
 import { Button, Input, FormField } from '../../../components';
-import { dateFormatting } from '../../../utils';
-import { addPhone, editValue, removePhone } from '../../../redux';
+import { formattingDataPhone } from '../../../utils';
+import { addPhone, editPhone, removePhone } from '../../../redux';
 
 import 'react-datepicker/dist/react-datepicker.css';
 import styles from './PhoneDataForm.module.scss';
+import PropTypes from 'prop-types';
 
 const phoneRegExp =
   /^(\+7|7|8)?[\s-]?\(?[489][0-9]{2}\)?[\s-]?[0-9]{3}[\s-]?[0-9]{2}[\s-]?[0-9]{2}$/;
@@ -35,7 +36,7 @@ export const PhoneDataForm = ({ onClose, isEdit, id }) => {
   const formValues = useSelector(formStore);
   const localStorageValue = JSON.parse(localStorage.getItem('form'));
   const initialValue = useMemo(() => {
-    return isEdit ? dateFormatting(formValues) : dateFormatting(localStorageValue);
+    return isEdit ? formattingDataPhone(formValues) : formattingDataPhone(localStorageValue);
   }, [isEdit]);
   const {
     control,
@@ -62,17 +63,20 @@ export const PhoneDataForm = ({ onClose, isEdit, id }) => {
     },
     [dispatch],
   );
+  const checkLocalStorage = (value) => {
+    if (!isEdit) {
+      localStorage.setItem('form', JSON.stringify(value));
+    }
+  };
   useEffect(() => {
-    const subscription = watch((value) =>
-      isEdit ? null : localStorage.setItem('form', JSON.stringify(value)),
-    );
+    const subscription = watch((value) => checkLocalStorage(value));
     return () => {
       subscription.unsubscribe();
     };
   }, [watch]);
   const onSubmitEdit = useCallback(
     (data) => {
-      dispatch(editValue({ id, ...data, dateRegistration: data.dateRegistration.toString() }));
+      dispatch(editPhone({ id, ...data, dateRegistration: data.dateRegistration.toString() }));
       onClose();
     },
     [dispatch],
@@ -90,6 +94,7 @@ export const PhoneDataForm = ({ onClose, isEdit, id }) => {
           name="nameUser"
           theme="modal"
           className={`form-control ${errors.nameUser ? 'is-invalid' : ''}`}
+          autoFocus={true}
         />
       </FormField>
       <FormField label="Город" errors={errors.city?.message}>
@@ -154,4 +159,10 @@ export const PhoneDataForm = ({ onClose, isEdit, id }) => {
       )}
     </form>
   );
+};
+
+PhoneDataForm.propTypes = {
+  onClose: PropTypes.func.isRequired,
+  isEdit: PropTypes.bool,
+  id: PropTypes.string,
 };

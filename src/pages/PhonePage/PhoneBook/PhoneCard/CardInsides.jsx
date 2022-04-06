@@ -2,6 +2,7 @@ import React from 'react';
 import Moment from 'react-moment';
 
 import styles from './PhoneCard.module.scss';
+import PropTypes from 'prop-types';
 
 export const CardInsides = ({ phone, city, nameUser, dateRegistration }) => {
   return (
@@ -21,4 +22,11 @@ export const CardInsides = ({ phone, city, nameUser, dateRegistration }) => {
       </p>
     </div>
   );
+};
+
+CardInsides.propTypes = {
+  nameUser: PropTypes.string.isRequired,
+  city: PropTypes.string.isRequired,
+  dateRegistration: PropTypes.string.isRequired,
+  phone: PropTypes.oneOfType([PropTypes.string, PropTypes.number]).isRequired,
 };

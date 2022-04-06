@@ -1,18 +1,18 @@
 import React from 'react';
 import { useSelector } from 'react-redux';
 import { PhoneCard } from './PhoneCard/PhoneCard';
-import { filteredPhones, listPhone } from '../../../redux/selector';
+import { filteredPhonesSelector, listPhone } from '../../../redux/selector';
 
 import styles from './PhoneBook.module.scss';
 
 export const PhoneBook = () => {
   const phones = useSelector(listPhone);
-  const phonesFiltering = useSelector(filteredPhones);
+  const filteredPhones = useSelector(filteredPhonesSelector);
   return (
     <div className={styles.phoneBook}>
       {phones.length ? (
         <ul className={styles.wrapperPhoneBook}>
-          {phonesFiltering.map((item) => (
+          {filteredPhones.map((item) => (
             <PhoneCard key={item.id} {...item} />
           ))}
         </ul>
