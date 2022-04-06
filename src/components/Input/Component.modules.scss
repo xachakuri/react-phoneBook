@@ -10,7 +10,8 @@
   &_default {
     padding: 5px 5px 5px 20px;
     background-color: #f1f3f4;
-    border-right: 2px solid #bbbbbb;
+    border: 1px solid #bbbbbb;
+    border-radius: 8px;
   }
 
   &_modal {
