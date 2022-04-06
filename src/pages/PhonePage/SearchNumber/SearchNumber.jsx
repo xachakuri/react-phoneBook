@@ -7,14 +7,17 @@ export const SearchNumber = () => {
   const [isOpen, setIsOpen] = useState(false);
   const onClose = useCallback(() => setIsOpen(false), [setIsOpen]);
   const onShow = useCallback(() => setIsOpen(true), [setIsOpen]);
-
+  const [isEdit, setIsEdit] = useState(false);
+  const onCreate = useCallback(() => {
+    setIsEdit(false);
+  }, [setIsEdit]);
   return (
     <div className={styles.formPhone}>
       <div className={styles.containerFormPhone}>
         <Input placeholder="Поиск номера телефона" />
         <Button onClick={onShow}>Добавить ➕ </Button>
         <Modal title="Добавить телефон" onClose={onClose} isOpen={isOpen}>
-          <ModalForm onClose={onClose} isEdit={false} />
+          <ModalForm onClose={onClose} isEdit={isEdit} onCreate={onCreate} />
         </Modal>
       </div>
     </div>
