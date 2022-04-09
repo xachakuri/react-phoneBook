@@ -3,9 +3,8 @@ import { useForm, Controller } from 'react-hook-form';
 import NumberFormat from 'react-number-format';
 import DatePicker from 'react-datepicker';
 import * as Yup from 'yup';
-import { useDispatch, useSelector } from 'react-redux';
+import { useDispatch } from 'react-redux';
 import { yupResolver } from '@hookform/resolvers/yup';
-import { formStore } from '../../../redux/selector';
 import { Button, Input, FormField } from '../../../components';
 import { formattingDataPhone } from '../../../utils';
 import { addPhone, editPhone, removePhone } from '../../../redux';
@@ -31,12 +30,12 @@ const validationSchema = Yup.object().shape({
     .transform((curr, orig) => (orig === '' ? null : curr))
     .required('❗ Поле обязательно к заполнению'),
 });
-export const PhoneDataForm = ({ onClose, isEdit, id }) => {
+export const PhoneDataForm = ({ onClose, isEdit, id, getPhone }) => {
   const dispatch = useDispatch();
-  const formValues = useSelector(formStore);
+  const formValue = getPhone;
   const localStorageValue = JSON.parse(localStorage.getItem('form'));
   const initialValue = useMemo(() => {
-    return isEdit ? formattingDataPhone(formValues) : formattingDataPhone(localStorageValue);
+    return isEdit ? formattingDataPhone(formValue) : formattingDataPhone(localStorageValue);
   }, [isEdit]);
   const {
     control,
@@ -85,6 +84,7 @@ export const PhoneDataForm = ({ onClose, isEdit, id }) => {
     dispatch(removePhone({ id }));
     onClose();
   }, [id, dispatch]);
+
   return (
     <form onSubmit={handleSubmit(isEdit ? onSubmitEdit : onSubmit)}>
       <FormField label="Имя" errors={errors.nameUser?.message}>
@@ -164,5 +164,6 @@ export const PhoneDataForm = ({ onClose, isEdit, id }) => {
 PhoneDataForm.propTypes = {
   onClose: PropTypes.func.isRequired,
   isEdit: PropTypes.bool,
-  id: PropTypes.string,
+  id: PropTypes.oneOfType([PropTypes.string, PropTypes.object]),
+  getPhone: PropTypes.oneOfType([PropTypes.string, PropTypes.object]),
 };

@@ -1,30 +1,14 @@
 import React, { useCallback, useState } from 'react';
-import { useDispatch } from 'react-redux';
 import PropTypes from 'prop-types';
 import { CardInsides } from './CardInsides';
-import { PhoneDataForm } from '../../PhoneDataForm/PhoneDataForm';
 import { Button, Modal } from '../../../../components';
-import { addFormValue } from '../../../../redux';
 
 import styles from './PhoneCard.module.scss';
 
-export const PhoneCard = ({ id, phone, city, nameUser, dateRegistration }) => {
-  const formValue = {
-    formName: nameUser,
-    formPhone: phone,
-    formCity: city,
-    formDate: dateRegistration.toString(),
-  };
-  const dispatch = useDispatch();
+export const PhoneCard = ({ id, phone, city, nameUser, dateRegistration, onEdit }) => {
   const [isOpenQuickView, setIsOpenQuickView] = useState(false);
   const onClose = useCallback(() => setIsOpenQuickView(false), [setIsOpenQuickView]);
   const onShow = useCallback(() => setIsOpenQuickView(true), [setIsOpenQuickView]);
-  const [isOpenEdit, setIsOpenEdit] = useState(false);
-  const onCloseEdit = useCallback(() => setIsOpenEdit(false), [setIsOpenEdit]);
-  const onEdit = useCallback(() => {
-    setIsOpenEdit(true);
-    dispatch(addFormValue({ id }, formValue));
-  }, [setIsOpenEdit]);
   return (
     <>
       <li className={styles.phoneCard}>
@@ -38,7 +22,7 @@ export const PhoneCard = ({ id, phone, city, nameUser, dateRegistration }) => {
           />
           <div className={styles.cardButtons}>
             <Button onClick={onShow}>Быстрый просмотр</Button>
-            <Button onClick={onEdit}>Редактировать</Button>
+            <Button onClick={() => onEdit(id)}>Редактировать</Button>
           </div>
         </div>
       </li>
@@ -51,9 +35,6 @@ export const PhoneCard = ({ id, phone, city, nameUser, dateRegistration }) => {
           dateRegistration={dateRegistration}
         />
       </Modal>
-      <Modal title="Режим редактирования" onClose={onCloseEdit} isOpen={isOpenEdit}>
-        <PhoneDataForm onClose={onCloseEdit} id={id} isEdit />
-      </Modal>
     </>
   );
 };
@@ -64,4 +45,5 @@ PhoneCard.propTypes = {
   id: PropTypes.string.isRequired,
   dateRegistration: PropTypes.string.isRequired,
   phone: PropTypes.oneOfType([PropTypes.string, PropTypes.number]).isRequired,
+  onEdit: PropTypes.func,
 };

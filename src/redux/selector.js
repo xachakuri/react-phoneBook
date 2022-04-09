@@ -7,8 +7,6 @@ export const listPhone = (state) => selectDomain(state).phones;
 
 export const inputSearchValue = (state) => selectDomain(state).searchFilter;
 
-export const formStore = (state) => selectDomain(state).formValues;
-
 export const filteredPhonesSelector = createSelector(
   [listPhone, inputSearchValue],
   (phones, value) => {
@@ -17,3 +15,9 @@ export const filteredPhonesSelector = createSelector(
     });
   },
 );
+
+const getId = (state, itemId) => itemId;
+
+export const getPhoneById = createSelector([listPhone, getId], (items, itemId) => {
+  return items.find((item) => item.id === itemId);
+});
