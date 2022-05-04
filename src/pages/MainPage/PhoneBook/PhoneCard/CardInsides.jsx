@@ -3,11 +3,14 @@ import Moment from 'react-moment';
 
 import styles from './PhoneCard.module.scss';
 import PropTypes from 'prop-types';
+import { Link } from 'react-router-dom';
 
-export const CardInsides = ({ phone, city, nameUser, dateRegistration }) => {
+export const CardInsides = ({ phone, city, nameUser, dateRegistration, id }) => {
   return (
     <div className={styles.cardInformation}>
-      <h4>{nameUser}</h4>
+      <Link to={`/items/${id}`}>
+        <h4>{nameUser}</h4>
+      </Link>
       <p>
         Город: <b>{city}</b>
       </p>
@@ -29,4 +32,5 @@ CardInsides.propTypes = {
   city: PropTypes.string.isRequired,
   dateRegistration: PropTypes.string.isRequired,
   phone: PropTypes.oneOfType([PropTypes.string, PropTypes.number]).isRequired,
+  id: PropTypes.string,
 };

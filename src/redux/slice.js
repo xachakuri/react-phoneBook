@@ -1,4 +1,5 @@
 import { createSlice } from '@reduxjs/toolkit';
+import { nanoid } from 'nanoid';
 
 export const initialState = {
   phones: [],
@@ -11,7 +12,7 @@ const phoneSlice = createSlice({
   reducers: {
     addPhone(state, action) {
       state.phones.push({
-        id: new Date().toISOString(),
+        id: nanoid(),
         ...action.payload,
       });
     },

@@ -1,0 +1,19 @@
+.individualPhoneCard {
+  display: flex;
+  justify-content: center;
+  margin: 180px auto;
+}
+
+.containerIndividualPhoneCard {
+  border: 10px solid #bbbbbb;
+  border-radius: 15px;
+}
+
+.phoneCardInfo {
+  margin: 40px auto;
+  padding: 10px;
+}
+
+.phoneCardInfo button {
+  margin-top: 5px;
+}
