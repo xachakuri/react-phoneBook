@@ -1,0 +1,26 @@
+.phoneCard {
+  width: 340px;
+  height: auto;
+  background-color: #ffffff;
+  border: 2px solid #bbbbbb;
+  border-radius: 5px;
+  transition: transform 0.5s;
+}
+
+.wrapperPhoneCard {
+  padding: 10px;
+}
+
+.cardInformation {
+  margin-bottom: 0.5rem;
+  font-size: 18px;
+}
+
+.phoneCard:hover {
+  transform: scale(1.05);
+}
+
+.cardButtons {
+  display: grid;
+  gap: 0.5rem;
+}
