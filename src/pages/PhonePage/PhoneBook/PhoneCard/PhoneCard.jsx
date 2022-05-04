@@ -6,19 +6,11 @@ import { ModalForm } from '../../ModalForm/ModalForm';
 import { useDispatch } from 'react-redux';
 import { addFormValue } from '../../../../redux';
 
-export const PhoneCard = ({ id, phone, city, nameUser, dateRegistration }) => {
-  const dispatch = useDispatch();
-  const [isOpen, setIsOpen] = useState(false);
-  const onClose = useCallback(() => setIsOpen(false), [setIsOpen]);
-  const onShow = useCallback(() => setIsOpen(true), [setIsOpen]);
-  const [isOpenEdit, setIsOpenEdit] = useState(false);
-  const [isEdit, setIsEdit] = useState(false);
-  const onCloseEdit = useCallback(() => setIsOpenEdit(false), [setIsOpenEdit]);
-  const onEdit = useCallback(() => {
-    setIsEdit(true);
-    setIsOpenEdit(true);
-    dispatch(addFormValue({ id }));
-  }, [setIsEdit, setIsOpenEdit]);
+  export const PhoneCard = ({ id, phone, city, nameUser, dateRegistration, onEdit }) => {
+    const [isOpenQuickView, setIsOpenQuickView] = useState(false);
+    const onClose = useCallback(() => setIsOpenQuickView(false), [setIsOpenQuickView]);
+    const onShow = useCallback(() => setIsOpenQuickView(true), [setIsOpenQuickView]);
+
   return (
     <>
       <li className={styles.phoneCard}>
