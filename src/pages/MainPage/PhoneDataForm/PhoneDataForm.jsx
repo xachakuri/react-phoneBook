@@ -1,17 +1,18 @@
 import React, { useCallback, useEffect, useMemo } from 'react';
-import { useForm, Controller } from 'react-hook-form';
+import { Controller, useForm } from 'react-hook-form';
 import NumberFormat from 'react-number-format';
 import DatePicker from 'react-datepicker';
 import * as Yup from 'yup';
+import PropTypes from 'prop-types';
+import { nanoid } from 'nanoid';
 import { useDispatch } from 'react-redux';
 import { yupResolver } from '@hookform/resolvers/yup';
-import { Button, Input, FormField } from '../../../components';
+import { Button, FormField, Input } from '../../../components';
 import { formattingDataPhone } from '../../../utils';
-import { addPhone, editPhone, removePhone } from '../../../redux';
+import { actions } from '../../../redux';
 
 import 'react-datepicker/dist/react-datepicker.css';
 import styles from './PhoneDataForm.module.scss';
-import PropTypes from 'prop-types';
 
 const phoneRegExp =
   /^(\+7|7|8)?[\s-]?\(?[489][0-9]{2}\)?[\s-]?[0-9]{3}[\s-]?[0-9]{2}[\s-]?[0-9]{2}$/;
@@ -51,8 +52,9 @@ export const PhoneDataForm = ({ onClose, isEdit, id, getPhone }) => {
   const onSubmit = useCallback(
     (data) => {
       dispatch(
-        addPhone({
+        actions.addPhone({
           ...data,
+          id: nanoid(),
           dateRegistration: data.dateRegistration.toString(),
         }),
       );
@@ -75,15 +77,21 @@ export const PhoneDataForm = ({ onClose, isEdit, id, getPhone }) => {
   }, [watch]);
   const onSubmitEdit = useCallback(
     (data) => {
-      dispatch(editPhone({ id, ...data, dateRegistration: data.dateRegistration.toString() }));
+      dispatch(
+        actions.changePhone({
+          ...data,
+          id,
+          dateRegistration: data.dateRegistration.toString(),
+        }),
+      );
       onClose();
     },
     [dispatch],
   );
   const deletePhoneHandler = useCallback(() => {
-    dispatch(removePhone({ id }));
+    dispatch(actions.deletePhone({ id }));
     onClose();
-  }, [id, dispatch]);
+  }, [dispatch, id]);
 
   return (
     <form onSubmit={handleSubmit(isEdit ? onSubmitEdit : onSubmit)}>

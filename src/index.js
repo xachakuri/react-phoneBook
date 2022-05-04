@@ -6,6 +6,7 @@ import store from './redux/store';
 import App from './App';
 import { BrowserRouter, Route, Routes } from 'react-router-dom';
 import { MainPage, PhoneCardPage } from './pages';
+
 ReactDOM.render(
   <React.StrictMode>
     <BrowserRouter>

@@ -1,0 +1,39 @@
+{
+  "phones": [
+    {
+      "nameUser": "Василий",
+      "city": "СПБ",
+      "dateRegistration": "Mon May 02 2022 00:00:00 GMT+0300 (Москва, стандартное время)",
+      "phone": "+7 (999) 999-99-99",
+      "id": "Gb1Zg1Oczp0-6Xl2x7HUq"
+    },
+    {
+      "nameUser": "Настя",
+      "city": "Москва",
+      "dateRegistration": "Wed May 02 2012 00:00:00 GMT+0400 (Москва, стандартное время)",
+      "phone": "+7 (996) 987-43-24",
+      "id": "wMK9JVkIYtF5c9ozvKuHw"
+    },
+    {
+      "nameUser": "Кирилл",
+      "city": "Пермь",
+      "dateRegistration": "Tue May 03 2022 00:00:00 GMT+0300 (Москва, стандартное время)",
+      "phone": "+7 (898) 796-86-78",
+      "id": "uUo-xUA0rzjUwNduWcNLB"
+    },
+    {
+      "nameUser": "Саша",
+      "city": "Тверь",
+      "dateRegistration": "Mon Jan 31 2022 00:00:00 GMT+0300 (Москва, стандартное время)",
+      "phone": "+7 (876) 745-67-34",
+      "id": "6LIieO__aUME7LD-6pJrA"
+    },
+    {
+      "id": "PTy7yMCENAArrsvi7KfXp",
+      "nameUser": "Михаил ",
+      "city": "Москва",
+      "dateRegistration": "Tue May 09 2017 00:00:00 GMT+0300 (Москва, стандартное время)",
+      "phone": "+7 (956) 325-43-52"
+    }
+  ]
+}
