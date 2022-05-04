@@ -27,3 +27,4 @@ postcss.config.js
 .prettierignore
 .prettierrc.js
 .stylelintrc.js
+.eslintrc.js

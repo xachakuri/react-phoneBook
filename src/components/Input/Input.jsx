@@ -2,7 +2,7 @@ import React, { forwardRef } from 'react';
 import clsx from 'clsx';
 import PropTypes from 'prop-types';
 
-import './Component.modules.scss';
+import './Input.modules.scss';
 
 export const Input = forwardRef(
   (
@@ -16,7 +16,10 @@ export const Input = forwardRef(
       register = () => null,
       name,
       onClick,
+      autoFocus,
+      onBlur,
     },
+    // eslint-disable-next-line no-unused-vars
     ref,
   ) => {
     return (
@@ -30,10 +33,14 @@ export const Input = forwardRef(
           required: true,
         })}
         onClick={onClick}
+        autoFocus={autoFocus}
+        onBlur={onBlur}
       />
     );
   },
 );
+
+Input.displayName = 'Input';
 
 Input.propTypes = {
   onChange: PropTypes.func,
@@ -41,4 +48,10 @@ Input.propTypes = {
   placeholder: PropTypes.string,
   value: PropTypes.string,
   className: PropTypes.string,
+  onClick: PropTypes.func,
+  name: PropTypes.string,
+  type: PropTypes.string,
+  autoFocus: PropTypes.bool,
+  register: PropTypes.func,
+  onBlur: PropTypes.func,
 };

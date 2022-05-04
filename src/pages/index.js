@@ -1,1 +1,2 @@
-export * from './PhonePage/PhonePage';
+export * from './MainPage/MainPage';
+export * from './PhoneCardPage/PhoneCardPage';

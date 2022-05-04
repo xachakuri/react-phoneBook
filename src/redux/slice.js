@@ -1,7 +1,9 @@
 import { createSlice } from '@reduxjs/toolkit';
+import { nanoid } from 'nanoid';
 
 export const initialState = {
   phones: [],
+  searchFilter: '',
 };
 
 const phoneSlice = createSlice({
@@ -10,16 +12,29 @@ const phoneSlice = createSlice({
   reducers: {
     addPhone(state, action) {
       state.phones.push({
-        id: new Date().toISOString(),
-        nameUser: action.payload.nameUser,
-        city: action.payload.city,
-        phone: action.payload.phone,
-        dateRegistration: action.payload.dateRegistration,
+        id: nanoid(),
+        ...action.payload,
       });
+    },
+    setSearchValue(state, action) {
+      state.searchFilter = action.payload;
+    },
+    removePhone(state, action) {
+      state.phones = state.phones.filter((item) => item.id !== action.payload.id);
+    },
+    editPhone(state, action) {
+      state.phones = state.phones.map((item) =>
+        item.id === action.payload.id
+          ? {
+              ...item,
+              ...action.payload,
+            }
+          : item,
+      );
     },
   },
 });
 
-export const { addPhone } = phoneSlice.actions;
+export const { addPhone, removePhone, setSearchValue, editPhone } = phoneSlice.actions;
 
 export default phoneSlice.reducer;
