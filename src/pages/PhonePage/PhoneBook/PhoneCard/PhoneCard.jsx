@@ -5,10 +5,10 @@ import { Button, Modal } from '../../../../components';
 
 import styles from './PhoneCard.module.scss';
 
-export const PhoneCard = ({ id, phone, city, nameUser, dateRegistration, onEdit }) => {
-  const [isOpenQuickView, setIsOpenQuickView] = useState(false);
-  const onClose = useCallback(() => setIsOpenQuickView(false), [setIsOpenQuickView]);
-  const onShow = useCallback(() => setIsOpenQuickView(true), [setIsOpenQuickView]);
+  export const PhoneCard = ({ id, phone, city, nameUser, dateRegistration, onEdit }) => {
+    const [isOpenQuickView, setIsOpenQuickView] = useState(false);
+    const onClose = useCallback(() => setIsOpenQuickView(false), [setIsOpenQuickView]);
+    const onShow = useCallback(() => setIsOpenQuickView(true), [setIsOpenQuickView]);
   return (
     <>
       <li className={styles.phoneCard}>
