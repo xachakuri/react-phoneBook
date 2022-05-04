@@ -16,6 +16,8 @@ export const filteredPhonesSelector = createSelector(
   },
 );
 
+export const isLoadingSelector = (state) => selectDomain(state).isLoading;
+
 const getId = (state, itemId) => itemId;
 
 export const getPhoneById = createSelector([listPhone, getId], (items, itemId) => {

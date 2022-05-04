@@ -1,8 +1,8 @@
-import React, { useState, useCallback } from 'react';
+import React, { useCallback, useState } from 'react';
 import { useDispatch } from 'react-redux';
 import { PhoneDataForm } from '../PhoneDataForm/PhoneDataForm';
 import { Button, Input, Modal } from '../../../components';
-import { setSearchValue } from '../../../redux';
+import { actions } from '../../../redux/slice';
 
 import styles from './PhonebookActions.module.scss';
 import { useSearchParams } from 'react-router-dom';
@@ -15,7 +15,7 @@ export const PhonebookActions = () => {
   const [, setSearchParams] = useSearchParams({});
   const handleValue = useCallback(
     (e) => {
-      dispatch(setSearchValue(e.target.value));
+      dispatch(actions.setSearchValue(e.target.value));
       setSearchParams({ search: e.target.value });
     },
     [dispatch],
@@ -27,7 +27,7 @@ export const PhonebookActions = () => {
     <div className={styles.formPhone}>
       <div className={styles.containerFormPhone}>
         <Input
-          placeholder="Поиск номера телефона"
+          placeholder="Поиск номера по имени"
           onChange={handleValue}
           onBlur={resetSearchParams}
         />
