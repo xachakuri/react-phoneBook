@@ -17,6 +17,7 @@ export const Input = forwardRef(
       name,
       onClick,
       autoFocus,
+      onBlur,
     },
     // eslint-disable-next-line no-unused-vars
     ref,
@@ -33,6 +34,7 @@ export const Input = forwardRef(
         })}
         onClick={onClick}
         autoFocus={autoFocus}
+        onBlur={onBlur}
       />
     );
   },
@@ -51,4 +53,5 @@ Input.propTypes = {
   type: PropTypes.string,
   autoFocus: PropTypes.bool,
   register: PropTypes.func,
+  onBlur: PropTypes.func,
 };
