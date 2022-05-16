@@ -1,19 +1,17 @@
 import React from 'react';
 import { ClipLoader } from 'react-spinners';
-import PropTypes from 'prop-types';
 
 import styles from './Loading.module.scss';
-import clsx from 'clsx';
+import PropTypes from 'prop-types';
 
-export const Loading = ({ loading, size }) => {
+export const Loading = ({ isShow }) => {
+  if (!isShow) return null;
   return (
-    <div className={clsx(styles.loading, { [styles.activeLoading]: loading })}>
-      <ClipLoader loading={loading} size={size} />
+    <div className={styles.loading}>
+      <ClipLoader size={100} />
     </div>
   );
 };
-
 Loading.propTypes = {
-  loading: PropTypes.bool,
-  size: PropTypes.number,
+  isShow: PropTypes.bool,
 };

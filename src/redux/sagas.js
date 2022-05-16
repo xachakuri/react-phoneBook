@@ -1,58 +1,64 @@
-import { call, delay, put, takeLatest } from 'redux-saga/effects';
+import { all, call, delay, put, takeLatest } from 'redux-saga/effects';
 import { actions } from './slice';
 import { deletePhoneByIdApi, getPhonesApi, postPhoneApi, putPhoneApi } from '../api/api';
+import { toast } from 'react-toastify';
 
 //Загрузка всех карточек //
 export function* loadPhonesSaga() {
+  yield delay(300);
   try {
     const response = yield call(getPhonesApi);
-    yield delay(400);
     yield put(actions.loadPhoneSuccess(response.data));
   } catch (err) {
     yield put(actions.loadPhoneError(err));
-    console.log('err');
+    toast.error('Ошибка,телефоны не были загружены');
   }
 }
 
 //Удаление карточки //
-export function* deletePhoneSaga({ payload: { id } }) {
+export function* deletePhoneSaga({ payload }) {
+  yield delay(100);
   try {
-    yield call(deletePhoneByIdApi, { id });
-    yield delay(200);
-    yield put(actions.deletePhoneSuccess({ id }));
+    yield call(deletePhoneByIdApi, payload);
+    yield put(actions.deletePhoneSuccess(payload));
+    toast.success('Успешно');
   } catch (err) {
     yield put(actions.deletePhoneError(err));
-    console.log('err');
+    toast.error('Ошибка,телефон не был удален');
   }
 }
 
 //Добавление новой карточки//
-export function* addPhoneSaga({ payload: { id, nameUser, phone, city, dateRegistration } }) {
+export function* addPhoneSaga({ payload }) {
+  yield delay(100);
   try {
-    yield call(postPhoneApi, { id, nameUser, phone, city, dateRegistration });
-    yield delay(200);
-    yield put(actions.addPhoneSuccess({ id, nameUser, phone, city, dateRegistration }));
+    yield call(postPhoneApi, payload);
+    yield put(actions.addPhoneSuccess(payload));
+    toast.success('Успешно');
   } catch (err) {
     yield put(actions.addPhoneError(err));
-    console.log('err');
+    toast.error('Ошибка,телефон не был добавлен');
   }
 }
 
 //Редактирование карточки//
-export function* changePhoneSaga({ payload: { id, nameUser, phone, city, dateRegistration } }) {
+export function* changePhoneSaga({ payload }) {
+  yield delay(100);
   try {
-    yield call(putPhoneApi, { id, nameUser, phone, city, dateRegistration });
-    yield delay(200);
-    yield put(actions.changePhoneSuccess({ id, nameUser, phone, city, dateRegistration }));
+    yield call(putPhoneApi, payload);
+    yield put(actions.changePhoneSuccess(payload));
+    toast.success('Успешно');
   } catch (err) {
     yield put(actions.changePhoneError(err));
-    console.log('err');
+    toast.error('Ошибка,телефон не изменен');
   }
 }
 
 export default function* rootSaga() {
-  yield takeLatest(actions.loadPhones, loadPhonesSaga);
-  yield takeLatest(actions.deletePhone, deletePhoneSaga);
-  yield takeLatest(actions.addPhone, addPhoneSaga);
-  yield takeLatest(actions.changePhone, changePhoneSaga);
+  yield all([
+    yield takeLatest(actions.loadPhones, loadPhonesSaga),
+    yield takeLatest(actions.deletePhone, deletePhoneSaga),
+    yield takeLatest(actions.addPhone, addPhoneSaga),
+    yield takeLatest(actions.changePhone, changePhoneSaga),
+  ]);
 }

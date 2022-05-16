@@ -4,7 +4,10 @@ export const initialState = {
   phones: [],
   searchFilter: '',
   isLoading: false,
-  error: '404',
+  error: '',
+  isShowModalAdd: false,
+  isShowModalEdit: false,
+  isShowModalQuick: false,
 };
 
 const phoneSlice = createSlice({
@@ -18,10 +21,12 @@ const phoneSlice = createSlice({
       state.phones.push({
         ...payload,
       });
+      state.isShowModalAdd = false;
       state.isLoading = false;
     },
     addPhoneError(state, { payload }) {
-      state.isLoading = true;
+      state.isShowModalAdd = true;
+      state.isLoading = false;
       state.error = payload;
     },
     setSearchValue(state, { payload }) {
@@ -35,7 +40,7 @@ const phoneSlice = createSlice({
       state.phones = payload;
     },
     loadPhoneError: (state, { payload }) => {
-      state.isLoading = true;
+      state.isLoading = false;
       state.error = payload;
     },
     deletePhone(state) {
@@ -43,10 +48,12 @@ const phoneSlice = createSlice({
     },
     deletePhoneSuccess(state, { payload }) {
       state.phones = state.phones.filter((item) => item.id !== payload.id);
+      state.isShowModalEdit = false;
       state.isLoading = false;
     },
     deletePhoneError: (state, { payload }) => {
-      state.isLoading = true;
+      state.isShowModalEdit = true;
+      state.isLoading = false;
       state.error = payload;
     },
     changePhone(state) {
@@ -61,11 +68,22 @@ const phoneSlice = createSlice({
             }
           : item,
       );
+      state.isShowModalEdit = false;
       state.isLoading = false;
     },
     changePhoneError: (state, { payload }) => {
-      state.isLoading = true;
+      state.isShowModalEdit = true;
+      state.isLoading = false;
       state.error = payload;
+    },
+    showModalAdd: (state, { payload }) => {
+      state.isShowModalAdd = payload;
+    },
+    showModalEdit: (state, { payload }) => {
+      state.isShowModalEdit = payload;
+    },
+    showModalQuick: (state, { payload }) => {
+      state.isShowModalQuick = payload;
     },
   },
 });

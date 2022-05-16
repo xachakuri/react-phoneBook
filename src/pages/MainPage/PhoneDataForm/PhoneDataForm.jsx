@@ -4,7 +4,6 @@ import NumberFormat from 'react-number-format';
 import DatePicker from 'react-datepicker';
 import * as Yup from 'yup';
 import PropTypes from 'prop-types';
-import { nanoid } from 'nanoid';
 import { useDispatch } from 'react-redux';
 import { yupResolver } from '@hookform/resolvers/yup';
 import { Button, FormField, Input } from '../../../components';
@@ -31,39 +30,22 @@ const validationSchema = Yup.object().shape({
     .transform((curr, orig) => (orig === '' ? null : curr))
     .required('❗ Поле обязательно к заполнению'),
 });
-export const PhoneDataForm = ({ onClose, isEdit, id, getPhone }) => {
+export const PhoneDataForm = ({ onClose, isEdit, id, phoneEditedValue, onSubmit }) => {
   const dispatch = useDispatch();
-  const formValue = getPhone;
   const localStorageValue = JSON.parse(localStorage.getItem('form'));
   const initialValue = useMemo(() => {
-    return isEdit ? formattingDataPhone(formValue) : formattingDataPhone(localStorageValue);
+    return isEdit ? formattingDataPhone(phoneEditedValue) : formattingDataPhone(localStorageValue);
   }, [isEdit]);
   const {
     control,
     register,
     handleSubmit,
-    reset,
     watch,
     formState: { errors },
   } = useForm({
     resolver: yupResolver(validationSchema),
     defaultValues: initialValue,
   });
-  const onSubmit = useCallback(
-    (data) => {
-      dispatch(
-        actions.addPhone({
-          ...data,
-          id: nanoid(),
-          dateRegistration: data.dateRegistration.toString(),
-        }),
-      );
-      reset();
-      onClose();
-      localStorage.clear();
-    },
-    [dispatch],
-  );
   const checkLocalStorage = (value) => {
     if (!isEdit) {
       localStorage.setItem('form', JSON.stringify(value));
@@ -75,27 +57,14 @@ export const PhoneDataForm = ({ onClose, isEdit, id, getPhone }) => {
       subscription.unsubscribe();
     };
   }, [watch]);
-  const onSubmitEdit = useCallback(
-    (data) => {
-      dispatch(
-        actions.changePhone({
-          ...data,
-          id,
-          dateRegistration: data.dateRegistration.toString(),
-        }),
-      );
-      onClose();
-    },
-    [dispatch],
-  );
   const deletePhoneHandler = useCallback(() => {
     dispatch(actions.deletePhone({ id }));
     onClose();
   }, [dispatch, id]);
 
   return (
-    <form onSubmit={handleSubmit(isEdit ? onSubmitEdit : onSubmit)}>
-      <FormField label="Имя" errors={errors.nameUser?.message}>
+    <form onSubmit={handleSubmit(onSubmit)}>
+      <FormField label="Имя*" errors={errors.nameUser?.message}>
         <Input
           placeholder="Введите имя"
           register={register}
@@ -105,7 +74,7 @@ export const PhoneDataForm = ({ onClose, isEdit, id, getPhone }) => {
           autoFocus={true}
         />
       </FormField>
-      <FormField label="Город" errors={errors.city?.message}>
+      <FormField label="Город*" errors={errors.city?.message}>
         <Input
           placeholder="Введите город"
           register={register}
@@ -114,7 +83,7 @@ export const PhoneDataForm = ({ onClose, isEdit, id, getPhone }) => {
           className={`form-control ${errors.city ? 'is-invalid' : ''}`}
         />
       </FormField>
-      <FormField label="Дата регистрации" errors={errors.dateRegistration?.message}>
+      <FormField label="Дата регистрации*" errors={errors.dateRegistration?.message}>
         <Controller
           control={control}
           name="dateRegistration"
@@ -138,7 +107,7 @@ export const PhoneDataForm = ({ onClose, isEdit, id, getPhone }) => {
           )}
         />
       </FormField>
-      <FormField label="Телефон" errors={errors.phone?.message}>
+      <FormField label="Телефон*" errors={errors.phone?.message}>
         <Controller
           control={control}
           name="phone"
@@ -170,8 +139,9 @@ export const PhoneDataForm = ({ onClose, isEdit, id, getPhone }) => {
 };
 
 PhoneDataForm.propTypes = {
-  onClose: PropTypes.func.isRequired,
+  onSubmit: PropTypes.func.isRequired,
+  onClose: PropTypes.func,
   isEdit: PropTypes.bool,
   id: PropTypes.oneOfType([PropTypes.string, PropTypes.object]),
-  getPhone: PropTypes.oneOfType([PropTypes.string, PropTypes.object]),
+  phoneEditedValue: PropTypes.oneOfType([PropTypes.string, PropTypes.object]),
 };

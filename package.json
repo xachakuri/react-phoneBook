@@ -21,6 +21,7 @@
     "react-router-dom": "^6.3.0",
     "react-scripts": "5.0.0",
     "react-spinners": "^0.11.0",
+    "react-toastify": "^9.0.1",
     "redux-saga": "^1.1.3",
     "stylelint-config-recommended-scss": "^6.0.0",
     "stylelint-scss": "^4.2.0",

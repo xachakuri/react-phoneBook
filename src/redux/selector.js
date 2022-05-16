@@ -1,25 +1,31 @@
 import { createSelector } from '@reduxjs/toolkit';
 import { initialState } from './slice';
 
-const selectDomain = (state) => state.phones || initialState;
+const rootSelector = (state) => state.phones || initialState;
 
-export const listPhone = (state) => selectDomain(state).phones;
-
-export const inputSearchValue = (state) => selectDomain(state).searchFilter;
+export const phonesSelector = (state) => {
+  return rootSelector(state).phones.length ? rootSelector(state).phones : [];
+};
+export const inputSearchValue = (state) => rootSelector(state).searchFilter;
 
 export const filteredPhonesSelector = createSelector(
-  [listPhone, inputSearchValue],
+  [phonesSelector, inputSearchValue],
   (phones, value) => {
     return phones.filter((phone) => {
       return phone.nameUser.toLowerCase().includes(value.toLowerCase());
     });
   },
 );
+export const isShowModalAddSelector = (state) => rootSelector(state).isShowModalAdd;
 
-export const isLoadingSelector = (state) => selectDomain(state).isLoading;
+export const isShowModalEditSelector = (state) => rootSelector(state).isShowModalEdit;
 
-const getId = (state, itemId) => itemId;
+export const isShowModalQuickSelector = (state) => rootSelector(state).isShowModalQuick;
 
-export const getPhoneById = createSelector([listPhone, getId], (items, itemId) => {
+export const isLoadingSelector = (state) => rootSelector(state).isLoading;
+
+const getIdSelector = (state, itemId) => itemId;
+
+export const getPhoneById = createSelector([phonesSelector, getIdSelector], (items, itemId) => {
   return items.find((item) => item.id === itemId);
 });

@@ -10,11 +10,11 @@ export const deletePhoneByIdApi = async ({ id }) => await mainAxios.delete(`/pho
 
 export const postPhoneApi = async ({ id, nameUser, phone, city, dateRegistration }) =>
   await mainAxios.post('/phones/', {
-    id: id,
-    nameUser: nameUser,
-    city: city,
-    dateRegistration: dateRegistration,
-    phone: phone,
+    id,
+    nameUser,
+    city,
+    dateRegistration,
+    phone,
   });
 
 export const putPhoneApi = async ({ id, nameUser, phone, city, dateRegistration }) =>

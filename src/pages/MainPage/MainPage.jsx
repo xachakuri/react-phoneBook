@@ -1,5 +1,7 @@
 import React from 'react';
 import { PhoneBook, PhonebookActions } from './index';
+import { ToastContainer } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 import { useSelector } from 'react-redux';
 import { isLoadingSelector } from '../../redux/selector';
 import { Loading } from '../../components/Loading/Loading';
@@ -10,7 +12,8 @@ export const MainPage = () => {
     <>
       <PhonebookActions />
       <PhoneBook />
-      <Loading loading={isLoading} size={50} />
+      <Loading isShow={isLoading} />
+      <ToastContainer autoClose={2000} theme={'colored'} />
     </>
   );
 };
