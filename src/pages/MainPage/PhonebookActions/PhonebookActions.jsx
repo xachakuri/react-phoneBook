@@ -2,22 +2,29 @@ import React, { useCallback } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { PhoneDataForm } from '../PhoneDataForm/PhoneDataForm';
 import { Button, Input, Modal } from '../../../components';
-import { actions } from '../../../redux';
+import { isShowModalAddSelector } from '../../../redux/interface/selector';
+import { actions as phoneActions } from '../../../redux/phones/slice';
+import { actions as interfaceActions } from '../../../redux/interface/slice';
 
 import styles from './PhonebookActions.module.scss';
 import { useSearchParams } from 'react-router-dom';
 import { nanoid } from 'nanoid';
-import { isShowModalAddSelector } from '../../../redux/selector';
 
 export const PhonebookActions = () => {
   const dispatch = useDispatch();
   const isShowModalAdd = useSelector(isShowModalAddSelector);
-  const onClose = useCallback(() => dispatch(actions.showModalAdd(false)), [dispatch]);
-  const onShow = useCallback(() => dispatch(actions.showModalAdd(true)), [dispatch]);
+  const onClose = useCallback(
+    () => dispatch(interfaceActions.updateModalAddState(false)),
+    [dispatch],
+  );
+  const onShow = useCallback(
+    () => dispatch(interfaceActions.updateModalAddState(true)),
+    [dispatch],
+  );
   const [, setSearchParams] = useSearchParams({});
   const handleValue = useCallback(
     (e) => {
-      dispatch(actions.setSearchValue(e.target.value));
+      dispatch(phoneActions.setSearchValue(e.target.value));
       if (e.target.value) {
         setSearchParams({ search: e.target.value });
       } else {
@@ -26,26 +33,30 @@ export const PhonebookActions = () => {
     },
     [dispatch],
   );
-  const onSubmitAdd = useCallback(
+  const submitAddForm = useCallback(
     (data) => {
       dispatch(
-        actions.addPhone({
+        phoneActions.addPhone({
           ...data,
           id: nanoid(),
           dateRegistration: data.dateRegistration.toString(),
         }),
       );
-      localStorage.clear();
     },
     [dispatch],
   );
+  const localStorageValue = JSON.parse(localStorage.getItem('form'));
   return (
     <div className={styles.formPhone}>
       <div className={styles.containerFormPhone}>
         <Input placeholder="Поиск номера по имени" onChange={handleValue} />
         <Button onClick={onShow}>Добавить ➕ </Button>
         <Modal title="Добавить телефон" onClose={onClose} isOpen={isShowModalAdd}>
-          <PhoneDataForm onClose={onClose} onSubmit={onSubmitAdd} />
+          <PhoneDataForm
+            onClose={onClose}
+            onSubmit={submitAddForm}
+            initialValue={localStorageValue}
+          />
         </Modal>
       </div>
     </div>

@@ -5,7 +5,7 @@ import Moment from 'react-moment';
 import PropTypes from 'prop-types';
 import styles from './IndividualPhoneCard.module.scss';
 import { Button } from '../../../components';
-import { getPhoneById } from '../../../redux/selector';
+import { getPhoneById } from '../../../redux/phones/selector';
 
 export const IndividualPhoneCard = ({ id }) => {
   const phoneById = useSelector((state) => getPhoneById(state, id));

@@ -1,27 +1,27 @@
 import React from 'react';
 import Moment from 'react-moment';
 
-import styles from './PhoneCard.module.scss';
+import styles from '../PhoneCard/PhoneCard.module.scss';
 import PropTypes from 'prop-types';
 import { useSelector } from 'react-redux';
-import { getPhoneById } from '../../../../redux/selector';
+import { getPhoneById } from '../../../../redux/phones/selector';
 
 export const CardQuickView = ({ id }) => {
-  const phoneQuickViewValue = useSelector((state) => getPhoneById(state, id));
+  const phoneData = useSelector((state) => getPhoneById(state, id));
   return (
     <div className={styles.cardInformation}>
-      <h4>{phoneQuickViewValue.nameUser}</h4>
+      <h4>{phoneData.nameUser}</h4>
       <p>
-        Город: <b>{phoneQuickViewValue.city} </b>
+        Город: <b>{phoneData.city} </b>
       </p>
       <p>
         Дата регистрации:{' '}
         <b>
-          <Moment format="YYYY/MM/DD" date={phoneQuickViewValue.dateRegistration} />
+          <Moment format="YYYY/MM/DD" date={phoneData.dateRegistration} />
         </b>
       </p>
       <p>
-        Номер телефона: <b>{phoneQuickViewValue.phone}</b>
+        Номер телефона: <b>{phoneData.phone}</b>
       </p>
     </div>
   );

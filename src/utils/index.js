@@ -1,4 +1,4 @@
-export const formattingDataPhone = (value) => {
+export const formatDataPhone = (value) => {
   if (!value) {
     return {};
   }

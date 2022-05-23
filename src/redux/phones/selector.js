@@ -16,11 +16,6 @@ export const filteredPhonesSelector = createSelector(
     });
   },
 );
-export const isShowModalAddSelector = (state) => rootSelector(state).isShowModalAdd;
-
-export const isShowModalEditSelector = (state) => rootSelector(state).isShowModalEdit;
-
-export const isShowModalQuickSelector = (state) => rootSelector(state).isShowModalQuick;
 
 export const isLoadingSelector = (state) => rootSelector(state).isLoading;
 

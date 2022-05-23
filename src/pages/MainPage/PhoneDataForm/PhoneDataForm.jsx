@@ -1,4 +1,4 @@
-import React, { useCallback, useEffect, useMemo } from 'react';
+import React, { useCallback, useEffect } from 'react';
 import { Controller, useForm } from 'react-hook-form';
 import NumberFormat from 'react-number-format';
 import DatePicker from 'react-datepicker';
@@ -7,8 +7,8 @@ import PropTypes from 'prop-types';
 import { useDispatch } from 'react-redux';
 import { yupResolver } from '@hookform/resolvers/yup';
 import { Button, FormField, Input } from '../../../components';
-import { formattingDataPhone } from '../../../utils';
-import { actions } from '../../../redux';
+import { formatDataPhone } from '../../../utils';
+import { actions as phoneActions } from '../../../redux/phones/slice';
 
 import 'react-datepicker/dist/react-datepicker.css';
 import styles from './PhoneDataForm.module.scss';
@@ -30,12 +30,8 @@ const validationSchema = Yup.object().shape({
     .transform((curr, orig) => (orig === '' ? null : curr))
     .required('❗ Поле обязательно к заполнению'),
 });
-export const PhoneDataForm = ({ onClose, isEdit, id, phoneEditedValue, onSubmit }) => {
+export const PhoneDataForm = ({ onClose, isEdit, id, initialValue, onSubmit }) => {
   const dispatch = useDispatch();
-  const localStorageValue = JSON.parse(localStorage.getItem('form'));
-  const initialValue = useMemo(() => {
-    return isEdit ? formattingDataPhone(phoneEditedValue) : formattingDataPhone(localStorageValue);
-  }, [isEdit]);
   const {
     control,
     register,
@@ -44,21 +40,18 @@ export const PhoneDataForm = ({ onClose, isEdit, id, phoneEditedValue, onSubmit 
     formState: { errors },
   } = useForm({
     resolver: yupResolver(validationSchema),
-    defaultValues: initialValue,
+    defaultValues: formatDataPhone(initialValue),
   });
-  const checkLocalStorage = (value) => {
-    if (!isEdit) {
-      localStorage.setItem('form', JSON.stringify(value));
-    }
-  };
   useEffect(() => {
-    const subscription = watch((value) => checkLocalStorage(value));
-    return () => {
-      subscription.unsubscribe();
-    };
+    if (!isEdit) {
+      const subscription = watch((value) => localStorage.setItem('form', JSON.stringify(value)));
+      return () => {
+        subscription.unsubscribe();
+      };
+    }
   }, [watch]);
   const deletePhoneHandler = useCallback(() => {
-    dispatch(actions.deletePhone({ id }));
+    dispatch(phoneActions.deletePhone({ id }));
     onClose();
   }, [dispatch, id]);
 
@@ -143,5 +136,5 @@ PhoneDataForm.propTypes = {
   onClose: PropTypes.func,
   isEdit: PropTypes.bool,
   id: PropTypes.oneOfType([PropTypes.string, PropTypes.object]),
-  phoneEditedValue: PropTypes.oneOfType([PropTypes.string, PropTypes.object]),
+  initialValue: PropTypes.oneOfType([PropTypes.string, PropTypes.object]),
 };
