@@ -24,7 +24,6 @@ export function* deletePhoneSaga({ payload }) {
     toast.success('Успешно');
   } catch (err) {
     yield put(phoneActions.deletePhoneError(err));
-    yield put(interfaceActions.updateModalEditState(true));
     toast.error('Ошибка,телефон не был удален');
   }
 }
@@ -39,7 +38,6 @@ export function* addPhoneSaga({ payload }) {
     toast.success('Успешно');
   } catch (err) {
     yield put(phoneActions.addPhoneError(err));
-    yield put(interfaceActions.updateModalAddState(true));
     toast.error('Ошибка,телефон не был добавлен');
   }
 }
@@ -53,7 +51,6 @@ export function* changePhoneSaga({ payload }) {
     toast.success('Успешно');
   } catch (err) {
     yield put(phoneActions.changePhoneError(err));
-    yield put(interfaceActions.updateModalEditState(true));
     toast.error('Ошибка,телефон не изменен');
   }
 }

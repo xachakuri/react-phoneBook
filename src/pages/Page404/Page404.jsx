@@ -1,9 +1,9 @@
 import React from 'react';
 
-import styles from './Error404.module.scss';
+import styles from './Page404.module.scss';
 import { Link } from 'react-router-dom';
 
-export const Error404 = () => {
+export const Page404 = () => {
   return (
     <div className={styles.wrapperErrorPage}>
       <h2>К сожалению, такой страницы нет</h2>
