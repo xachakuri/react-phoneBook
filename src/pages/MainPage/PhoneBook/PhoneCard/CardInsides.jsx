@@ -12,7 +12,7 @@ export const CardInsides = ({ phone, city, nameUser, dateRegistration, id }) => 
         <h4>{nameUser}</h4>
       </Link>
       <p>
-        Город: <b>{city}</b>
+        Город: <b>{city} </b>
       </p>
       <p>
         Дата регистрации:{' '}

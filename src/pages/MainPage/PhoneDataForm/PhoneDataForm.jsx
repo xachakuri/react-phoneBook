@@ -1,17 +1,17 @@
-import React, { useCallback, useEffect, useMemo } from 'react';
-import { useForm, Controller } from 'react-hook-form';
+import React, { useCallback, useEffect } from 'react';
+import { Controller, useForm } from 'react-hook-form';
 import NumberFormat from 'react-number-format';
 import DatePicker from 'react-datepicker';
 import * as Yup from 'yup';
+import PropTypes from 'prop-types';
 import { useDispatch } from 'react-redux';
 import { yupResolver } from '@hookform/resolvers/yup';
-import { Button, Input, FormField } from '../../../components';
-import { formattingDataPhone } from '../../../utils';
-import { addPhone, editPhone, removePhone } from '../../../redux';
+import { Button, FormField, Input } from '../../../components';
+import { formatDataPhone } from '../../../utils';
+import { actions as phoneActions } from '../../../redux/phones/slice';
 
 import 'react-datepicker/dist/react-datepicker.css';
 import styles from './PhoneDataForm.module.scss';
-import PropTypes from 'prop-types';
 
 const phoneRegExp =
   /^(\+7|7|8)?[\s-]?\(?[489][0-9]{2}\)?[\s-]?[0-9]{3}[\s-]?[0-9]{2}[\s-]?[0-9]{2}$/;
@@ -30,64 +30,34 @@ const validationSchema = Yup.object().shape({
     .transform((curr, orig) => (orig === '' ? null : curr))
     .required('❗ Поле обязательно к заполнению'),
 });
-export const PhoneDataForm = ({ onClose, isEdit, id, getPhone }) => {
+export const PhoneDataForm = ({ onClose, isEdit, id, initialValue, onSubmit }) => {
   const dispatch = useDispatch();
-  const formValue = getPhone;
-  const localStorageValue = JSON.parse(localStorage.getItem('form'));
-  const initialValue = useMemo(() => {
-    return isEdit ? formattingDataPhone(formValue) : formattingDataPhone(localStorageValue);
-  }, [isEdit]);
   const {
     control,
     register,
     handleSubmit,
-    reset,
     watch,
     formState: { errors },
   } = useForm({
     resolver: yupResolver(validationSchema),
-    defaultValues: initialValue,
+    defaultValues: formatDataPhone(initialValue),
   });
-  const onSubmit = useCallback(
-    (data) => {
-      dispatch(
-        addPhone({
-          ...data,
-          dateRegistration: data.dateRegistration.toString(),
-        }),
-      );
-      reset();
-      onClose();
-      localStorage.clear();
-    },
-    [dispatch],
-  );
-  const checkLocalStorage = (value) => {
-    if (!isEdit) {
-      localStorage.setItem('form', JSON.stringify(value));
-    }
-  };
   useEffect(() => {
-    const subscription = watch((value) => checkLocalStorage(value));
-    return () => {
-      subscription.unsubscribe();
-    };
+    if (!isEdit) {
+      const subscription = watch((value) => localStorage.setItem('form', JSON.stringify(value)));
+      return () => {
+        subscription.unsubscribe();
+      };
+    }
   }, [watch]);
-  const onSubmitEdit = useCallback(
-    (data) => {
-      dispatch(editPhone({ id, ...data, dateRegistration: data.dateRegistration.toString() }));
-      onClose();
-    },
-    [dispatch],
-  );
   const deletePhoneHandler = useCallback(() => {
-    dispatch(removePhone({ id }));
+    dispatch(phoneActions.deletePhone({ id }));
     onClose();
-  }, [id, dispatch]);
+  }, [dispatch, id]);
 
   return (
-    <form onSubmit={handleSubmit(isEdit ? onSubmitEdit : onSubmit)}>
-      <FormField label="Имя" errors={errors.nameUser?.message}>
+    <form onSubmit={handleSubmit(onSubmit)}>
+      <FormField label="Имя*" errors={errors.nameUser?.message}>
         <Input
           placeholder="Введите имя"
           register={register}
@@ -97,7 +67,7 @@ export const PhoneDataForm = ({ onClose, isEdit, id, getPhone }) => {
           autoFocus={true}
         />
       </FormField>
-      <FormField label="Город" errors={errors.city?.message}>
+      <FormField label="Город*" errors={errors.city?.message}>
         <Input
           placeholder="Введите город"
           register={register}
@@ -106,7 +76,7 @@ export const PhoneDataForm = ({ onClose, isEdit, id, getPhone }) => {
           className={`form-control ${errors.city ? 'is-invalid' : ''}`}
         />
       </FormField>
-      <FormField label="Дата регистрации" errors={errors.dateRegistration?.message}>
+      <FormField label="Дата регистрации*" errors={errors.dateRegistration?.message}>
         <Controller
           control={control}
           name="dateRegistration"
@@ -130,7 +100,7 @@ export const PhoneDataForm = ({ onClose, isEdit, id, getPhone }) => {
           )}
         />
       </FormField>
-      <FormField label="Телефон" errors={errors.phone?.message}>
+      <FormField label="Телефон*" errors={errors.phone?.message}>
         <Controller
           control={control}
           name="phone"
@@ -162,8 +132,9 @@ export const PhoneDataForm = ({ onClose, isEdit, id, getPhone }) => {
 };
 
 PhoneDataForm.propTypes = {
-  onClose: PropTypes.func.isRequired,
+  onSubmit: PropTypes.func.isRequired,
+  onClose: PropTypes.func,
   isEdit: PropTypes.bool,
   id: PropTypes.oneOfType([PropTypes.string, PropTypes.object]),
-  getPhone: PropTypes.oneOfType([PropTypes.string, PropTypes.object]),
+  initialValue: PropTypes.oneOfType([PropTypes.string, PropTypes.object]),
 };

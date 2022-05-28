@@ -5,6 +5,7 @@
   "dependencies": {
     "@hookform/resolvers": "^2.8.8",
     "@reduxjs/toolkit": "^1.7.2",
+    "axios": "^0.27.2",
     "bootstrap": "^5.1.3",
     "clsx": "^1.1.1",
     "gh-pages": "^3.2.3",
@@ -19,6 +20,9 @@
     "react-redux": "^7.2.6",
     "react-router-dom": "^6.3.0",
     "react-scripts": "5.0.0",
+    "react-spinners": "^0.11.0",
+    "react-toastify": "^9.0.1",
+    "redux-saga": "^1.1.3",
     "stylelint-config-recommended-scss": "^6.0.0",
     "stylelint-scss": "^4.2.0",
     "yup": "^0.32.11"
@@ -26,7 +30,8 @@
   "scripts": {
     "start": "react-scripts start",
     "format": "prettier --write .",
-    "deploy": "gh-pages -d build",
+    "dev": "concurrently \"npm run server\" \"npm run start\" ",
+    "server": "json-server -w data.json -p 3001",
     "predeploy": "npm run build",
     "lint": "eslint --fix --ext .js,.jsx .",
     "stylelint": "stylelint \"src/**/*.scss\"",

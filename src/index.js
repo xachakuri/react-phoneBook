@@ -6,6 +6,8 @@ import store from './redux/store';
 import App from './App';
 import { BrowserRouter, Route, Routes } from 'react-router-dom';
 import { MainPage, PhoneCardPage } from './pages';
+import { Page404 } from './pages/Page404/Page404';
+
 ReactDOM.render(
   <React.StrictMode>
     <BrowserRouter>
@@ -14,6 +16,7 @@ ReactDOM.render(
         <Routes>
           <Route exact path="/*" element={<MainPage />} />
           <Route path="/items/:id" element={<PhoneCardPage />} />
+          <Route path="/404" element={<Page404 />} />
         </Routes>
       </Provider>
     </BrowserRouter>
